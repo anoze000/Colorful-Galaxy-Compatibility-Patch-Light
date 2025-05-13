@@ -1,0 +1,55 @@
+#原版蜂群
+trait_hive_mind = {
+	cost = 0
+	sorting_priority = 20
+
+	initial = no
+	randomized = no
+
+	species_potential_add = { always = no }
+	species_possible_remove = { always = no }
+	species_possible_merge_add = { always = no }
+
+	modifier = {}
+
+	leader_age_min = 10
+	leader_age_max = 20
+
+	allowed_archetypes = {
+		BIOLOGICAL
+		LITHOID
+		Magical_Bitch
+	}
+	ai_weight = { weight = 0 }
+	icon = "gfx/interface/icons/traits/leader_traits/leader_trait_ruler_hive_mind.dds"
+}
+
+trait_mechanical = {
+	cost = 0
+	sorting_priority = 20
+
+	initial = no
+	randomized = no
+	species_potential_add = { always = no }
+	species_possible_remove = { always = no }
+	species_possible_merge_add = { always = no }
+
+	immortal_leaders = no
+
+	allowed_archetypes = {
+		ROBOT
+		MACHINE
+		LOVEMACHINE
+		YGWAWA
+	}
+
+	leader_age_min = 1
+	leader_age_max = 10
+
+	custom_tooltip_with_modifiers = TRAIT_MECHANICAL_UNIT_EFFECT
+
+	modifier = {
+		pc_machine_habitability = 1
+		habitability_floor_add = 0.5
+	}
+}

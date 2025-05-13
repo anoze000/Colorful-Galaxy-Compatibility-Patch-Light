@@ -1,0 +1,282 @@
+# Base income of country
+country_base = {
+	parent = country
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = country
+}
+
+planet_structures = {
+	parent = planets
+	hidden = yes
+	generate_mult_modifiers = {
+		produces
+		cost
+		upkeep
+	}
+	modifier_category = planet
+}
+
+decisions = {
+	use_for_ai_budget = yes
+	parent = country
+	generate_mult_modifiers = {
+		cost
+	}
+	modifier_category = country
+}
+
+pop_category_slave = {
+	parent = planet_pops
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+    generate_mult_modifiers = {
+        produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+pop_category_workers = {
+	parent = planet_pops
+    generate_add_modifiers = {
+		produces
+		upkeep
+	}
+    generate_mult_modifiers = {
+        produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+pop_category_specialists = {
+	parent = planet_pops
+    generate_add_modifiers = {
+		produces
+		upkeep
+	}
+    generate_mult_modifiers = {
+        produces
+		upkeep
+	}
+}
+
+pop_category_rulers = {
+	parent = planet_pops
+    generate_add_modifiers = {
+		produces
+		upkeep
+	}
+    generate_mult_modifiers = {
+        produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+planet_uf_evolver = {
+	icon = "job_uf_evolver"
+	parent = planet_jobs_productive
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+wg_knights_category = {
+    parent = planet_jobs
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+    generate_mult_modifiers = {
+        produces
+		upkeep
+	}
+	modifier_category = pop
+}
+wg_knights_lord_category = {
+    parent = planet_jobs
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+    generate_mult_modifiers = {
+        produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+planet_wg_knight_lord = {
+	parent = planet_jobs_productive
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+planet_wg_knight = {
+	parent = planet_jobs_productive
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+planet_wg_squire = {
+	parent = planet_jobs_productive
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+planet_districts = {
+	parent = planet_structures
+
+	generate_add_modifiers = {
+		cost
+		upkeep
+		produces
+	}
+	
+	generate_mult_modifiers = {
+		cost
+        upkeep
+		produces
+	}
+	modifier_category = planet
+}
+
+megastructures = {
+	use_for_ai_budget = yes
+	ai_use_parent_for_resources_upkeep = {
+		energy
+		consumer_goods
+	}
+	parent = country
+	generate_mult_modifiers = {
+		cost
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		cost
+		produces
+		upkeep
+	}
+	modifier_category = megastructure
+}
+
+planet_technician = {
+	parent = planet_jobs_productive
+	generate_add_modifiers = {
+		produces
+        upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+planet_farmers = {
+	parent = planet_jobs_productive
+	generate_add_modifiers = {
+		produces
+        upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+planet_miners = {
+	parent = planet_jobs_productive
+	generate_add_modifiers = {
+		produces
+        upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+planet_researchers = {
+	icon = "job_researcher"
+	parent = planet_jobs_productive
+	generate_add_modifiers = {
+		produces
+        upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+planet_uf_special_translucers = {
+	parent = planet_jobs
+	generate_add_modifiers = {
+		produces
+        upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop
+}
+
+trade_routes = {
+	#太虚
+	parent = trade
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+}
+planet_culture_workers = {
+	parent = planet_bureaucrats
+	generate_add_modifiers = {
+		produces
+	}
+	generate_mult_modifiers = {
+		produces
+	}
+	modifier_category = pop
+}

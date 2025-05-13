@@ -1,0 +1,129 @@
+planet_pops = {
+	parent = planets
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop_group
+	triggered_upkeep_modifier = {
+		key = planet_pops_robotics
+		modifier_types = {
+			mult
+		}
+		trigger = {
+			is_robot_pop_group = yes
+		}
+	}
+	triggered_upkeep_modifier = {
+		key = planet_pops_cyborgs
+		modifier_types = {
+			mult
+		}
+		trigger = {
+			has_trait = trait_cybernetic
+		}
+	}
+	triggered_upkeep_modifier = {
+		key = planet_pops_organics
+		modifier_types = {
+			mult
+		}
+		trigger = {
+			is_robot_pop_group = no
+		}
+	}
+	triggered_upkeep_modifier = {
+		key = planet_pops_unemployed
+		modifier_types = {
+			add
+		}
+		trigger = {
+			is_unemployed = yes
+		}
+	}
+	triggered_produces_modifier = {
+		key = planet_dcyh_pops_militarist
+		modifier_types = {
+			add
+		}
+		trigger = {
+			has_ethic = ethic_militarist
+		}
+	}
+	triggered_upkeep_modifier = {
+		key = planet_dcyh_pops_militarist
+		modifier_types = {
+			add
+		}
+		trigger = {
+			has_ethic = ethic_militarist
+		}
+	}
+	triggered_upkeep_modifier = {
+		key = planet_pops_lust_slave
+		modifier_types = {
+			add
+		}
+		trigger = {
+			is_pop_category = slave
+			has_trait = trait_all_slave
+		}
+	}
+}
+
+pop_category_slave = {
+	parent = planet_pops
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop_group
+}
+
+pop_category_workers = {
+	parent = planet_pops
+	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	generate_mult_modifiers = {
+		upkeep
+		produces
+	}
+	modifier_category = pop_group
+}
+
+pop_category_specialists = {
+	parent = planet_pops
+	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	modifier_category = pop_group
+}
+
+pop_category_rulers = {
+	parent = planet_pops
+
+	generate_mult_modifiers = {
+		produces
+		upkeep
+	}
+	generate_add_modifiers = {
+		upkeep
+		produces
+	}
+	modifier_category = pop_group
+}

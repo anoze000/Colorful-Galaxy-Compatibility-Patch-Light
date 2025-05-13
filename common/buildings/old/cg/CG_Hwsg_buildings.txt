@@ -1,0 +1,114 @@
+################################################################################
+# Amenities buildings #  多彩舰娘建筑
+################################################################################
+building_Hwarshipgirls_milk = {
+	base_buildtime = 360
+	category = resource
+	building_sets = {
+		automation
+	}
+	prerequisites = { "tech_lovejuice_collecting" }
+	show_tech_unlock_if = { has_valid_civic = civic_Hport }
+	potential = {
+		owner = {
+			has_valid_civic = civic_Hport
+			NOT = { has_policy_flag = robots_outlawed }
+		}
+		NOT = { has_modifier = slave_colony }
+	}
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 540
+		}
+		upkeep = {
+			energy = 1
+		}
+	}
+	planet_modifier = {
+		job_love_juice_maker_add = 600
+	}
+	triggered_desc = { text = job_love_juice_maker_effect_desc }
+	destroy_trigger = {
+		exists = owner
+		owner = { NOT = { has_valid_civic = civic_Hport } }
+	}
+}
+
+building_big_toy_monument = {
+	base_buildtime = 720
+	category = manufacturing
+	building_sets = {
+		automation
+	}
+	empire_limit = { base = 1 }
+	potential = {
+		exists = planet
+		has_modifier = slave_colony
+		owner = { has_valid_civic = civic_Hport }
+	}
+	prerequisites = { "tech_galactic_administration" }
+	show_tech_unlock_if = { has_valid_civic = civic_Hport }
+	allow = { has_major_upgraded_capital = yes }
+	resources = {
+		category = planet_buildings
+		cost = {
+			influence = 100
+			minerals = 2500
+		}
+		upkeep = {
+			minerals = 25
+		}
+		produces = {
+			society_research = 30
+			physics_research = 30
+			engineering_research = 30
+			unity = 10
+		}
+	}
+	country_modifier = {
+		ship_tracking_mult = 0.1
+		ship_fire_rate_mult = 0.1
+		pop_happiness = 0.1
+		planet_building_build_speed_mult = 0.5
+		planet_jobs_unity_produces_mult = 0.2
+	}
+}
+
+building_wsg_luxury_residence2 = {
+	base_buildtime = 240
+	base_cap_amount = 1
+	category = amenity
+	building_sets = {
+		automation
+	}
+	potential = {
+		exists = owner
+		owner = {
+			has_valid_civic = civic_Hport
+			NOT = { has_policy_flag = robots_outlawed }
+		}
+		NOT = { has_modifier = slave_colony }
+	}
+	destroy_trigger = {
+		exists = owner
+		OR = {
+			owner = { NOT = { has_valid_civic = civic_Hport } }
+			has_modifier = slave_colony
+		}
+	}
+	planet_modifier = {
+		planet_amenities_add = 1000
+		planet_jobs_slave_produces_mult = 0.15
+	}
+	resources = {
+		category = planet_buildings
+		cost = {
+			minerals = 300
+		}
+		upkeep = {
+			energy = 10
+			exotic_gases = 1
+		}
+	}
+}

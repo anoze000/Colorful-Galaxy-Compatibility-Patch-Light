@@ -1,0 +1,44 @@
+﻿l_simp_chinese:
+
+ HWarship_Girls:0 "多彩舰娘物种"
+ Hwarship_girls:0 "多彩舰娘少女"
+ HWarship_Girls_insult_01:0 "毒爆虫"
+ HWarship_Girls_insult_plural_01:0 "毒爆虫"
+ HWarship_Girls_insult_02:0 "平胸女人"
+ HWarship_Girls_insult_plural_02:0 "平胸女人"
+ HWarship_Girls_compliment_01:0 "世界的本质"
+ HWarship_Girls_compliment_plural_01:0 "世界的本质"
+ HWarship_Girls_compliment_02:0 "高贵的舰娘"
+ HWarship_Girls_compliment_plural_02:0 "高贵的舰娘"
+ HWarship_Girls_sound_01:0 "叫床"
+
+ civic_Hport:0 "纵欲港区"
+ civic_Hport_desc:0 "不知何时，提督为了满足自己日渐疯狂的占有欲，选择将自己改造为类似蜂群意志的存在，并创造自己的分身分配给每一位舰娘，先进的基因科技剔除了一切可能造成的遗传病症。从此，提督是舰娘们的丈夫、父亲、祖父……祖先。\n§G允许建造多彩舰娘建筑§!。"
+ councilor_Hport:0 "侍奉舰娘"
+ councilor_Hport_female:0 "$councilor_Hport$"
+ councilor_Hport_desc:0 "$TITLE$负责安排舰娘处理提督的性欲，每晚都要安排不同的舰娘前往提督的房间。"
+
+ trait_gags:0 "口球"
+ trait_gags_desc:0 "§L科研人员还原了前太空文明人类的生活用品，偶然间发现了其真正作用。§!"
+
+ trait_shibari:0 "捆绑"
+ trait_shibari_desc:0 "§L队伍中总有些不服调教的舰娘，这种前文明时代的产物很好的压制了她们的气焰。§!"
+
+ trait_ultra_transport:0 "情趣装甲"
+ trait_ultra_transport_desc:0 "§L我们的科学家惊奇的发现，装甲并不是越厚越好, 在经过必要的文化性修饰之后，这种可以令人性腺兴奋的装甲便诞生了。§!"
+
+ trait_masochism_girls:0 "受虐体质"
+ trait_masochism_girls_desc:0 "§L让智能生物个体对恐惧产生特殊的反应。§!"
+
+
+ building_Hwarshipgirls_milk:0 "舰娘牛奶生产工厂"
+ building_Hwarshipgirls_milk_desc:0 "吾奉神之旨意，降爱液之于人间，汝等据此而事生产."
+
+ building_Hwarshipgirls_generator:0 "潮吹纪念碑"
+ building_Hwarshipgirls_generator_desc:0 "在生物反应之中，我们发现了一种依靠性高潮反应产能的有效手段，经过系统化普及，这种非常规手段能极大地提升帝国的能量产出。"
+
+ building_big_toy_monument:0 "高射炮雕像"
+ building_big_toy_monument_desc:0 "尚未有效的记载表明这类形状为何能让我们的民众产生一种平和，共情等情绪，但可以证明的是，此类建筑能让帝国上下更加凝聚在了一起。"
+
+ building_wsg_luxury_residence3:0 "触手穹顶"
+ building_wsg_luxury_residence3_desc:0 "我的化身，千变万化，触手自然是可选项之一，这幢建筑的每一个房间都有我的存在。欢愉之后，还能与舰娘们一起打打麻将。"

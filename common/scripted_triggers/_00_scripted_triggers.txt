@@ -1,0 +1,10 @@
+habitable_planet = {
+	OR = {
+		habitable_planet_not_urban = yes
+		is_planet_class = pc_relic
+		is_planet_class = pc_city
+		#_wsg
+		is_planet_class = pc_wsg_port
+		is_planet_class = pc_shenhai
+	}
+}

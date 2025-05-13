@@ -1,0 +1,880 @@
+#Root = species
+#This = country
+can_release_vassal_from_species = {
+	root = {
+		is_sapient = yes
+		NOR = {
+			AND = {
+				has_trait = trait_machine_unit
+				prev.this = { is_individual_machine = no }
+			}
+			AND = {
+				has_trait = trait_hive_mind
+				NOT = { prev.this = { has_origin = origin_progenitor_hive } }
+			}
+			AND = {
+				NOT = { has_trait = trait_hive_mind }
+				prev.this = { is_hive_empire = yes }
+			}
+			has_trait = trait_mechanical
+			can_think = no
+			has_trait = trait_clone_soldier_infertile
+			has_trait = trait_clone_soldier_infertile_full_potential
+			#多彩附属物种不能成为附庸
+			is_cg_vassal_species = yes
+		}
+	}
+}
+
+# Root = Pop Group
+# From = Country
+# This = Species
+species_has_happiness = {
+	NOR = {
+		AND = {
+			has_trait = trait_machine_unit
+			exists = from
+			from = { is_machine_empire = yes }
+		}
+		has_trait = trait_hive_mind
+		can_think = no
+		AND = {
+			has_trait = trait_mechanical
+			OR = {
+				NOT = { exists = from }
+				from = { is_machine_empire = yes }
+				from = { NOT = { has_technology = tech_synthetic_workers } }
+				from = { has_policy_flag = ai_outlawed }
+			}
+		}
+		AND = {
+			has_trait = trait_cybernetic
+			exists = from
+			from = {
+				OR = {
+					AND = {
+						is_machine_empire = yes
+						has_civic = civic_machine_assimilator # Assimilator empire
+					}
+					AND = {
+						is_democratic_authority = yes
+						has_country_flag = cyber_collectivist
+					}
+				}
+			}
+		}
+
+		is_species_need_happiness_dcyh = no
+	}
+}
+
+# Checks if a pop can procreate
+# This = Species
+# Root = Planet
+can_species_procreate = {
+	is_sapient = yes
+	NOR = {
+		has_trait = trait_machine_unit
+		has_trait = trait_mechanical
+		has_trait = trait_limited_cybernetic
+	}
+	NAND = {
+		root = { has_modifier = slave_colony }
+		NOT = { has_citizenship_type = { type = citizenship_slavery country = root.owner } }
+	}
+	if = {
+		limit = { has_trait = trait_necrophage }
+		NOT = {
+			root = {
+				any_owned_species = {
+					has_population_control = { country = root.owner type = no }
+					species_can_be_necrophaged = yes
+				}
+			}
+		}
+	}
+	NOR = {
+		has_citizenship_type = {
+			type = citizenship_protected_drone
+			country = root.owner
+		}
+		has_citizenship_type = {
+			type = citizenship_symbiotic_drone
+			country = root.owner
+		}
+		has_citizenship_type = {
+			type = citizenship_exploited_drone
+			country = root.owner
+		}
+	}
+	NOT = { has_species_flag = nivlac_no_procreation }
+	if = {
+		limit = {
+			has_cybernetic_creed_trait = yes
+		}
+		NOT = {
+			root = {
+				any_owned_species = {
+					has_population_control = { country = root.owner type = no }
+					is_robotic_species = no
+					has_cybernetic_creed_trait = no
+				}
+			}
+		}
+	}
+
+	#淫触之虫无法自然增长 
+	OR = {
+		AND = {
+			has_trait = trait_DC_ethic_parasite_mind
+			root.owner = { has_country_flag = has_ten_crisis_perk_1 }
+		}
+		NOT = { has_trait = trait_DC_ethic_parasite_mind }
+	}
+}
+
+# Checks if a pop can be assembled
+# This = Species
+# Root = Planet
+can_species_be_assembled = {
+	is_sapient = yes
+	NOT = { has_trait = trait_exd }
+	NOT = {
+		AND = {
+			has_trait = trait_mechanical
+			root.owner = { is_individual_machine = yes }
+		}
+	}
+	NOT = {
+		AND = {
+			has_virtual_species_trait = yes
+			root.owner = {
+				is_fallen_empire = no
+				has_active_tradition = tr_virtuality_finish
+			}
+		}
+	}
+	OR = {
+		is_robotic = yes
+		#雌伏于阴影之下起源 允许孤雌生殖物种组装
+		AND = {
+			has_trait = trait_suc_parthenogenesis
+			root = {
+				owner = { has_origin = origin_female_in_shadow }
+			}
+		}
+		#允许播种者组装
+		has_trait = trait_sowing_and_breeding
+		#淫触之虫组装淫奴
+		AND = {
+			is_species_class = PAR
+			root = {
+				is_ten_empire = yes
+				any_owned_pop_job = {
+					has_job_type = ten_nest_worker
+				}
+			}
+		}
+		#虫与自然组装
+		AND = {
+			OR = {
+				is_species_class = TEN
+				is_species_class = PAR
+			}
+			root = { owner = { has_valid_civic = civic_parasite_and_nature } }
+		}
+		#淫触圣女组装淫触造物
+		AND = {
+			is_species_class = Magical_Tentacle
+			root = {
+				is_sos_empire = yes
+				any_owned_pop_job = {
+					has_job_type = procreate_doll
+				}
+			}
+		}
+		#圣光创造圣女
+		AND = {
+			has_trait = trait_DC_ethic_asceticism
+			root = {
+				OR = {
+					has_building = building_holylight_clone_vats
+					has_building = building_world_tree_0
+					has_building = building_world_tree_1
+					has_building = building_world_tree_2
+					has_building = building_world_tree_3
+					has_building = building_world_tree_4
+					has_building = building_world_tree_5
+					AND = {
+						exists = owner
+						has_holding = { holding = holding_world_tree owner = owner.overlord }
+					}
+					owner = { has_origin = origin_INN_destruction_light }
+				}
+			}
+		}
+	}
+	has_population_control = {
+		type = no
+		country = root.owner
+	}
+}
+
+#This rule is a condition for bombarding planets
+#Root = fleet, potential attacker
+#From = planet, potential target
+can_orbital_bombard = {
+	exists = FROM.OWNER
+	NOT = {
+		any_controlled_ship = { is_ship_size = colossus }
+	}
+	OR = {
+		AND = {
+			ROOT.CONTROLLER = {
+				NOT = { has_communications = FROM.OWNER }
+			}
+			FROM.OWNER = {
+				NOT = { is_country_type = primitive }
+			}
+		}
+		AND = {
+			ROOT.CONTROLLER = {
+				NOR = {
+					has_policy_flag = interference_not_allowed
+					has_policy_flag = interference_subtle
+				}
+			}
+			FROM.OWNER = { is_country_type = primitive }
+		}
+		ROOT.CONTROLLER = { is_at_war_with = FROM.CONTROLLER }
+		FROM = { is_planet_class = pc_infested }
+		FROM.CONTROLLER = {
+			OR = {
+				is_country_type = ten_crisis_empire
+				is_country_type = swarm
+				is_country_type = ai_empire
+				is_country_type = cybrex_empire
+				is_country_type = abandoned_hatchery
+				AND = {
+					is_country_type = awakened_marauders
+					ROOT.CONTROLLER = { is_hostile = prev }
+				}
+			}
+		}
+		ROOT.CONTROLLER = {
+			OR = {
+				is_country_type = ten_crisis_empire
+				is_country_type = extradimensional
+				is_country_type = extradimensional_2
+				is_country_type = extradimensional_3
+				is_country_type = swarm
+				is_country_type = ai_empire
+				is_country_type = cybrex_empire
+				is_country_type = dormant_marauders
+				is_country_type = marauder_raiders
+				is_country_type = ruined_marauders
+				is_country_type = debt_collectors
+				is_country_type = gray_goo
+				is_country_type = vol
+				is_country_type = behemoth_hatchling
+				is_country_type = abandoned_hatchery
+				AND = {
+					is_country_type = frenzied_voidworms
+					has_country_flag = can_bombard
+					FROM.CONTROLLER = { has_country_flag = tormented_by_frenzied_voidworms }
+				}
+				AND = {
+					OR = {
+						is_country_type = awakened_marauders
+						is_country_type = formless
+					}
+					FROM.CONTROLLER = { is_hostile = prev }
+				}
+				AND = {
+					is_voidworms_hostile_country_type = yes
+					ROOT = { is_ship_size = voidworms_titan }
+				}
+			}
+		}
+		AND = {
+			from.controller = {
+				is_country_type = faction
+				NOT = { is_same_value = ROOT.CONTROLLER }
+			}
+			from.owner = { is_same_value = ROOT.CONTROLLER }
+		}
+	}
+}
+
+# Can the country have robot pop
+# root: country
+can_have_robot_pops = {
+	exists = this
+	is_hive_empire = no
+	NOT = { has_policy_flag = robots_outlawed }
+	#雌伏于阴影之下
+	NOT = { has_origin = origin_female_in_shadow }
+}
+
+# Root = country attempting to target system for movement
+# This = system being targeted
+can_enter_system_by_jump = {
+	custom_tooltip = {
+		#		success_text = "debug: can jump"
+		fail_text = cannot_jump_to_system
+		# Sealed system
+		OR = {
+			NOT = { has_star_flag = sealed_system }
+			AND = {
+				root = { has_country_flag = entered_sealed_system }
+				has_star_flag = sealed_system
+			}
+		}
+
+		# L-Cluster
+		NOT = { has_star_flag = lcluster }
+
+		# Formless system
+		NOT = { has_star_flag = formless_system }
+
+		# 淫触之虫母星系
+		NOR = {
+			has_star_flag = ten_crisis_system
+			any_neighbor_system = { has_star_flag = ten_crisis_system }
+		}
+
+		# 天国之战
+		NOR = {
+			exists = event_target:holylight_god_heaven_empire 
+			OR = {
+				has_star_flag = SUC_lustgod_ring_world_system
+				has_star_flag = init_sample_of_death
+				has_star_flag = init_sample_of_prosperity
+				has_star_flag = init_INN_holylight_god_system2
+			}
+		}
+	}
+}
+
+# This = pop_group
+can_resettle_pop_group = {
+	# Self-modified Pops won't leave
+	custom_tooltip = {
+		fail_text = "self_modified_refuse"
+		NOT = { has_trait = trait_self_modified }
+	}
+	# Pathogenic Pops Can't Resettle
+	custom_tooltip = {
+		fail_text = "pathogenic_genes_warning"
+		NOT = { has_trait = trait_pathogenic_genes }
+	}
+	custom_tooltip = {
+		fail_text = "origin_egalitarian_refuse"
+		NAND = {
+			has_ethic = ethic_egalitarian
+			is_enslaved = no
+			planet = { has_modifier = paragon_origin_reformists }
+		}
+	}
+	custom_tooltip = {
+		fail_text = "no_resettling_apps"
+		if = {
+			limit = { has_virtual_species_trait = yes }
+			exists = owner
+			owner = {
+				is_fallen_empire = no
+				NOT = { has_active_tradition = tr_virtuality_adopt }
+			}
+		}
+	}
+	if = { #Done as an IF/ELSE so the tooltip isn't hideous and unreadable
+		limit = { is_shackled_robot = yes }
+		always = yes
+	}
+	else_if = {
+		limit = {
+			planet = { is_doomsday_planet = yes }
+		}
+		always = yes
+	}
+	else_if = {
+		limit = {
+			planet = { has_modifier = planet_culture_shock }
+		}
+		OR = {
+			is_same_species = planet.owner
+			planet = {
+				NOT = { has_modifier = planet_culture_shock }
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			planet = {
+				is_capital = yes
+				pop_amount < 200
+			}
+			NOT = {
+				owner = {
+					any_owned_planet = {
+						is_capital = no
+						NOT = { is_planet_class = pc_cosmogenesis_world }
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "no_abandon_capital_for_unviable_planet"
+			always = no
+		}
+	}
+	else_if = {
+		limit = {
+			planet = {
+				is_planet_class = pc_cosmogenesis_world
+				owner = { has_ascension_perk = ap_cosmogenesis }
+				pop_amount < 200
+			}
+		}
+		custom_tooltip = {
+			fail_text = "no_unfueled_lathe"
+			always = no
+		}
+	}
+	else_if = {
+		limit = {
+			planet = {
+				has_deposit = d_genesis_preserve
+				sapient_pop_amount < 200
+			}
+			owner = { is_guided_sapience_empire = yes }
+		}
+		custom_tooltip = {
+			fail_text = "no_abandon_genesis_preserve"
+			always = no
+		}
+	}
+	else_if = {
+		limit = { owner = { has_ascension_perk = ap_cosmogenesis } }
+		always = yes
+	}
+	else_if = {
+		limit = { owner = { is_gestalt = yes } }
+		always = yes
+	}
+	else = {
+		custom_tooltip = {
+			fail_text = RESETTLEMENT_POLICY_FAIL
+			owner = { has_policy_flag = resettlement_allowed }
+		}
+	}
+
+	#雌伏于阴影之下
+	NOT = {
+		owner = {
+			has_origin = origin_female_in_shadow
+			hidden_trigger = {
+				any_country = { has_country_flag = origin_female_in_shadow@prev }
+			}
+			NOR = {
+				has_ascension_perk = ap_bumpy_cg_road_ahead_yield
+				has_ascension_perk = ap_bumpy_cg_road_ahead_coexistence
+			}
+		}
+	}
+}
+
+# This = country
+can_build_branch_offices = {
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NOT_MEGACORP
+		OR = {
+			is_megacorp = yes
+			has_civic = civic_galactic_sovereign_megacorp
+			#淫渊企业
+			has_authority = auth_brothel
+			#破灭之光
+			has_origin = origin_INN_destruction_light
+			#迭起兴衰
+			has_valid_civic = civic_parasite_rise_and_all
+		}
+	}
+}
+
+# This = country
+can_support_branch_offices = {
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NOT_FALLEN_EMPIRES
+		NOR = {
+			is_country_type = fallen_empire
+			is_country_type = awakened_fallen_empire
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NOT_ON_MEGACORP_PLANET
+		NOR = {
+			#破灭之光
+			has_origin = origin_INN_destruction_light
+			#迭起兴衰
+			has_valid_civic = civic_parasite_rise_and_all
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NOT_REGULAR_EMPIRE
+		is_gestalt = no
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NOT_ADVANCED_PRE_FTL
+		if = {
+			limit = {
+				is_primitive = yes
+				is_gestalt = no
+			}
+			OR = {
+				has_pre_ftl_age = atomic_age
+				has_pre_ftl_age = early_space_age
+			}
+		}
+	}
+}
+
+# This = planet
+# Root = country
+can_build_branch_office_on_planet = {
+	custom_tooltip = {
+		fail_text = requires_recipient_not_fanatic_purifiers
+		exists = owner
+		owner = {
+			OR = {
+				is_same_species = root
+				NOT = { has_civic = civic_fanatic_purifiers }
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NO_OBSERVATION_OUTPOST
+		if = {
+			limit = {
+				root = { is_criminal_syndicate = yes }
+				owner = { is_primitive = yes }
+			}
+			has_observation_outpost = yes
+			observation_outpost_owner = {
+				is_same_value = root
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_NOT_COMMERCIAL_PACT
+		exists = owner
+		OR = {
+			root = { is_criminal_syndicate = yes }
+			owner = { has_commercial_pact = root }
+			owner = { is_in_federation_with = root }
+			AND = {
+				has_observation_outpost = yes
+				observation_outpost = {
+					has_modifier = preftl_action_trade_pact
+				}
+			}
+			# allow branch offices in subsidiaries and vice versa (and fellow subjects)
+			root = {
+				is_subject = yes
+				OR = {
+					is_megacorp = yes
+					has_civic = civic_galactic_sovereign_megacorp
+				}
+				overlord = {
+					OR = {
+						is_same_value = prevprev.owner
+						is_same_value = prevprev.owner.overlord
+					}
+				}
+			}
+			owner = {
+				is_subject = yes
+				overlord = {
+					OR = {
+						is_same_value = root
+						is_same_value = root.overlord
+					}
+					OR = {
+						is_megacorp = yes
+						has_civic = civic_galactic_sovereign_megacorp
+					}
+				}
+			}
+			AND = {
+				root = { has_civic = civic_galactic_sovereign_megacorp }
+				owner = { is_galactic_community_member = yes }
+			}
+			AND = {
+				root = { has_modifier = imperial_charter }
+				owner = { is_galactic_community_member = yes }
+			}
+			root = {
+				OR = {
+					#爱欲盛宴
+					has_valid_civic = civic_master
+					#破灭之光
+					has_origin = origin_INN_destruction_light
+					#迭起兴衰
+					has_valid_civic = civic_parasite_rise_and_all
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_MEGACORP_OVERLORD
+		exists = owner
+		# failure message for having a corporate overlord
+		if = {
+			limit = {
+				OR = {
+					# Not valid if you aren't a subject.
+					root = { is_subject = no }
+					# Or if your overlord isn't a megacorp.
+					root = {
+						is_subject = yes
+						overlord = {
+							NOR = {
+								is_megacorp = yes
+								has_civic = civic_galactic_sovereign_megacorp
+							}
+						}
+					}
+				}
+			}
+			always = yes
+		}
+		else = {
+			AND = {
+				root = {
+					is_subject = yes
+					overlord = {
+						OR = {
+							is_megacorp = yes
+							has_civic = civic_galactic_sovereign_megacorp
+						}
+					}
+				}
+				owner = {
+					OR = {
+						is_subject = no
+						AND = {
+							is_subject = yes
+							overlord = { NOT = { is_same_value = root.overlord } }
+						}
+					}
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_CRIMINAL_HERITAGE_HAS_TRUCE
+		exists = owner
+		OR = {
+			root = { is_criminal_syndicate = no }
+			owner = {
+				NOR = {
+					has_truce = root
+					is_at_war_with = root
+				}
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = BRANCH_OFFICE_CRIMINAL_COOLDOWN
+		exists = owner
+		OR = {
+			root = { is_criminal_syndicate = no }
+			AND = {
+				root = { is_criminal_syndicate = yes }
+				NOT = { has_planet_flag = criminal_branch_closed_cooldown_planet@root }
+			}
+		}
+	}
+	custom_tooltip = {
+		fail_text = NO_BRANCH_OFFICE_ON_NANITE_WORLD
+		NOT = { is_planet_class = pc_gray_goo }
+	}
+	custom_tooltip = {
+		fail_text = NO_BRANCH_OFFICE_ON_SYNAPTIC_LATHE
+		NOT = { is_planet_class = pc_cosmogenesis_world }
+	}
+	custom_tooltip = {
+		fail_text = NO_BRANCH_OFFICE_ON_SELF
+		owner = { NOT = { is_same_value = root } }
+	}
+}
+
+# ROOT = country
+# This = pop_group
+can_be_sold_on_slave_market = {
+	exists = owner
+	OR = {
+		is_enslaved = yes
+		is_non_sapient_robot = yes
+		is_shackled_robot = yes
+	}
+	OR = {
+		ROOT = { is_ai = no }
+		has_citizenship_rights = no
+		is_on_slave_market = yes	# pops that were already on the market should stay there
+		AND = {
+			is_unemployed = yes
+			planet = { num_unemployed > 300 }
+		}
+	}
+	if = {
+		limit = { has_global_flag = organic_slave_trade_banned_flag }
+		is_organic_species = no
+	}
+	if = {
+		limit = { has_global_flag = sentient_slave_trade_banned_flag }
+		is_sapient = no
+	}
+	NOR = {
+		# Since they can't reproduce, they die out too fast for anyone to want to buy them.
+		has_trait = trait_clone_soldier_infertile
+		has_trait = trait_clone_soldier_infertile_full_potential
+		has_virtual_species_trait = yes
+	}
+	#被淫触之虫感染的人口无法贩卖
+	can_infest_pops_dc = no
+}
+
+# Root = current planet
+# This = pop_group
+# Purge, Sapience, Migration Controls policy (ignored by Gestalts and Synths), and target habitability are checked in code.
+can_pop_group_auto_migrate = {
+	hidden_trigger = { # This is always true where this tooltip is called
+		OR = {
+			is_unemployed = yes
+			is_pop_category = civilian
+		}
+	}
+	custom_tooltip = {
+		fail_text = AUTO_MIGRATE_ASSIMILATED
+		is_being_assimilated = no
+	}
+	custom_tooltip = {
+		fail_text = AUTO_MIGRATE_ROOTED
+		NOT = { has_trait = trait_rooted }
+	}
+	custom_tooltip = {
+		fail_text = AUTO_MIGRATE_VIRTUALITY
+		OR = {
+			has_virtual_species_trait = no
+			AND = {
+				has_virtual_species_trait = yes
+				exists = owner
+				owner = {
+					OR = {
+						is_individual_machine = no
+						is_machine_empire = no
+					}
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				is_shackled_robot = yes
+				is_enslaved = yes
+			}
+		}
+		custom_tooltip = {
+			fail_text = AUTO_MIGRATE_SLAVE_PROCESSING
+			OR = {
+				planet = {
+					OR = {
+						has_building = building_slave_processing
+						AND = {
+							exists = orbital_defence
+							orbital_defence = {
+								exists = starbase
+								starbase = {
+									has_starbase_building = ring_slave_processing_facility
+								}
+							}
+						}
+					}
+				}
+				solar_system = {
+					count_starbase_buildings = {
+						type = transit_hub
+						count >= 1
+						include_being_constructed = no
+					}
+				}
+			}
+		}
+	}
+	#雌伏于阴影之下
+	NOT = {
+		owner = {
+			has_origin = origin_female_in_shadow
+			hidden_trigger = {
+				any_country = { has_country_flag = origin_female_in_shadow@prev }
+			}
+			NOT = { has_ascension_perk = ap_bumpy_cg_road_ahead_yield }
+		}
+	}
+}
+
+#this/root = pop
+#checked if job's possible_precalc = can_fill_ruler_job
+can_fill_ruler_job = {
+	if = {
+		limit = {
+			exists = owner
+			owner = {
+				has_origin = origin_necrophage
+				has_trait = trait_necrophage
+			}
+		}
+		custom_tooltip = {
+			text = RULER_JOB_NECROPHAGE_TRIGGER
+			has_trait = trait_necrophage
+			is_enslaved = no
+			is_being_purged = no
+			is_being_assimilated = no
+		}
+	}
+	else = {
+		custom_tooltip = RULER_JOB_TRIGGER
+		hidden_trigger = {
+			NOT = { has_ethic = ethic_gestalt_consciousness }
+			exists = owner
+			OR = {
+				is_enslaved = no
+				owner = { has_valid_civic = civic_all_slave }
+			}
+			is_being_purged = no
+			is_being_assimilated = no
+			# Rule out Traits for servitude & lack of free will
+			can_think = yes
+			# Rule out Disconnected Drones
+			has_disconnected_drone_citizenship_type = no
+			# Rule out Machine Pops, unless they're rendered sapient
+			OR = {
+				NOT = { has_trait = trait_mechanical }
+				AND = {
+					owner = { has_technology = tech_synthetic_workers }
+					owner = { has_policy_flag = ai_full_rights }
+				}
+			}
+			# Rule out Organic Trophies
+			NOT = { has_citizenship_type = { type = citizenship_organic_trophy country = owner } }
+			# Rule out violations of the 'Right to Work' Resolution (prioritises organic workers)
+			if = {
+				limit = {
+					divinity_right_to_work_job_check_trigger_exempt = no
+				}
+				divinity_right_to_work_job_check_trigger_ruler = yes
+			}
+		}
+	}
+}
