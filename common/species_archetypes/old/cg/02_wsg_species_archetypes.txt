@@ -1,0 +1,17 @@
+WARSHIPGIRL = {
+	species_trait_points = 3
+	species_max_traits = 7
+	inherit_traits_from = {
+		CG_compatible_species_archetype
+		STARSHIPGIRLS
+	}
+}
+
+SHENHAI = {
+	species_trait_points = 4
+	species_max_traits = 6
+	inherit_traits_from = {
+		CG_compatible_species_archetype
+		STARSHIPGIRLS
+	}
+}

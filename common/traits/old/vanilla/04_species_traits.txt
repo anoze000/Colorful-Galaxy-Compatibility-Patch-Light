@@ -692,7 +692,6 @@ trait_strong = {
 trait_weak = {
 	cost = -1
 	category = normal
-	custom_tooltip_with_modifiers = trait_weak_tt
 	species_potential_add = {
 		can_add_negative_organic_traits = yes
 	}

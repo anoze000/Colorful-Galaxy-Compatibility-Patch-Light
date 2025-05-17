@@ -232,8 +232,7 @@ resolution_galacticreforms_nominate_custodian = {
 		custom_tooltip = {
 			fail_text = "nominate_other_custodian_not_crisis"
 			NOR = {
-				has_ascension_perk = ap_become_the_crisis
-				has_ascension_perk = ap_cosmogenesis
+				is_player_crisis = yes
 				has_valid_civic = civic_pompous_purists
 				#_wsg
 				has_ascension_perk = ap_wg_crisis
@@ -371,7 +370,7 @@ resolution_galacticreforms_nominate_custodian = {
 			overlord = {
 				OR = {
 					is_country_type = fallen_empire
-					is_country_type = awakened_fallen_empire\
+					is_country_type = awakened_fallen_empire
 					#_wsg
 					is_wg_fallen_empire = yes
 					is_sh_fallen_empire = yes

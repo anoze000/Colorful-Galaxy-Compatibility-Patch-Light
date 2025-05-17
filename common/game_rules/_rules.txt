@@ -738,7 +738,12 @@ can_build_branch_office_on_planet = {
 	custom_tooltip = {
 		fail_text = NO_BRANCH_OFFICE_ON_SELF
 		owner = {
-			NOT = { is_same_value = root }
+			OR = {
+				NOT = { is_same_value = root }
+				#爱欲盛宴
+				has_valid_civic = civic_master
+			}
+
 		}
 	}
 	#_wsg
