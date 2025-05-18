@@ -737,28 +737,44 @@ can_build_branch_office_on_planet = {
 	}
 	custom_tooltip = {
 		fail_text = NO_BRANCH_OFFICE_ON_SELF
-		owner = {
-			OR = {
+		OR = {
+			owner = {
 				NOT = { is_same_value = root }
+			}
+			# CGPC
+			root = {
 				#爱欲盛宴
 				has_valid_civic = civic_master
 			}
-
 		}
 	}
 	#_wsg
 	custom_tooltip = {
 		fail_text = requires_recipient_not_warshipgirls
-		exists = owner
-		owner = {
-			NOR = {
-				has_authority = auth_warshipgirls 
-				AND = {
-					has_authority = auth_shenhai
-					OR = {
-						has_country_flag = pantsu_shop_origin
-						has_civic = civic_sh_criminal_syndicate
+		OR = {
+			AND = {
+				exists = owner
+				owner = {
+					NOR = {
+						has_authority = auth_warshipgirls 
+						AND = {
+							has_authority = auth_shenhai
+							OR = {
+								has_country_flag = pantsu_shop_origin
+								has_civic = civic_sh_criminal_syndicate
+							}
+						}
 					}
+				}
+			}
+			# CGPC
+			AND = {
+				ROOT = {
+					#爱欲盛宴
+					has_valid_civic = civic_master
+				}
+				owner = {
+					is_same_value = root
 				}
 			}
 		}
