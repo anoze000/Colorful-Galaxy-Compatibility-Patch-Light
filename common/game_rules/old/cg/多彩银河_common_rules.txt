@@ -133,90 +133,75 @@ can_species_procreate = {
 	}
 }
 
-# Checks if a pop can be assembled
+# Checks if a species uses bonus_growth modifier
 # This = Species
 # Root = Planet
-can_species_be_assembled = {
+species_uses_bonus_growth = {
 	is_sapient = yes
-	NOT = { has_trait = trait_exd }
-	NOT = {
-		AND = {
-			has_trait = trait_mechanical
-			root.owner = { is_individual_machine = yes }
+	has_population_control = {
+		type = no
+		country = root.owner
+	}
+	NAND = {
+		root = { has_modifier = slave_colony }
+		NOT = { has_citizenship_type = { type = citizenship_slavery country = root.owner } }
+	}
+	if = {
+		limit = {
+			has_trait = trait_necrophage
+		}
+		NOT = {
+			root = {
+				any_owned_species = {
+					has_population_control = { country = root.owner type = no }
+					species_can_be_necrophaged = yes
+				}
+			}
 		}
 	}
-	NOT = {
-		AND = {
-			has_virtual_species_trait = yes
-			root.owner = {
-				is_fallen_empire = no
-				has_active_tradition = tr_virtuality_finish
+	NOR = {
+		has_citizenship_type = {
+			type = citizenship_protected_drone
+			country = root.owner
+		}
+		has_citizenship_type = {
+			type = citizenship_symbiotic_drone
+			country = root.owner
+		}
+		has_citizenship_type = {
+			type = citizenship_exploited_drone
+			country = root.owner
+		}
+	}
+	NOT = { has_species_flag = nivlac_no_procreation }
+	if = {
+		limit = {
+			has_infertile_clone_soldier_trait = yes
+		}
+		root = {
+			check_variable = { which = clone_pops_missing_per_vat value > 0 }
+		}
+	}
+	if = {
+		limit = {
+			has_cybernetic_creed_trait = yes
+		}
+		NOT = {
+			root = {
+				any_owned_species = {
+					has_population_control = { country = root.owner type = no }
+					is_robotic_species = no
+					has_cybernetic_creed_trait = no
+				}
 			}
 		}
 	}
 	OR = {
-		is_robotic = yes
-		#雌伏于阴影之下起源 允许孤雌生殖物种组装
+		NOT = { has_trait = trait_DC_ethic_parasite_mind }
 		AND = {
-			has_trait = trait_suc_parthenogenesis
-			root = {
-				owner = { has_origin = origin_female_in_shadow }
-			}
+			has_trait = trait_DC_ethic_parasite_mind
+			root.owner = { has_valid_civic = civic_parasite_and_nature }
 		}
-		#允许播种者组装
-		has_trait = trait_sowing_and_breeding
-		#淫触之虫组装淫奴
-		AND = {
-			is_species_class = PAR
-			root = {
-				is_ten_empire = yes
-				any_owned_pop_job = {
-					has_job_type = ten_nest_worker
-				}
-			}
-		}
-		#虫与自然组装
-		AND = {
-			OR = {
-				is_species_class = TEN
-				is_species_class = PAR
-			}
-			root = { owner = { has_valid_civic = civic_parasite_and_nature } }
-		}
-		#淫触圣女组装淫触造物
-		AND = {
-			is_species_class = Magical_Tentacle
-			root = {
-				is_sos_empire = yes
-				any_owned_pop_job = {
-					has_job_type = procreate_doll
-				}
-			}
-		}
-		#圣光创造圣女
-		AND = {
-			has_trait = trait_DC_ethic_asceticism
-			root = {
-				OR = {
-					has_building = building_holylight_clone_vats
-					has_building = building_world_tree_0
-					has_building = building_world_tree_1
-					has_building = building_world_tree_2
-					has_building = building_world_tree_3
-					has_building = building_world_tree_4
-					has_building = building_world_tree_5
-					AND = {
-						exists = owner
-						has_holding = { holding = holding_world_tree owner = owner.overlord }
-					}
-					owner = { has_origin = origin_INN_destruction_light }
-				}
-			}
-		}
-	}
-	has_population_control = {
-		type = no
-		country = root.owner
 	}
 }
 

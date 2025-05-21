@@ -77,7 +77,7 @@ building_big_toy_monument = {
 
 building_wsg_luxury_residence2 = {
 	base_buildtime = 240
-	base_cap_amount = 1
+	planet_limit = 1
 	category = amenity
 	building_sets = {
 		automation

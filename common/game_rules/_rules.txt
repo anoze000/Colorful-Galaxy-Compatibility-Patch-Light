@@ -138,92 +138,76 @@ can_species_procreate = {
 	}
 }
 
-# Checks if a pop can be assembled
+# Checks if a species uses bonus_growth modifier
 # This = Species
 # Root = Planet
-can_species_be_assembled = {
-	OR = {
-		is_robotic = yes
-		#雌伏于阴影之下起源 允许孤雌生殖物种组装
-		AND = {
-			has_trait = trait_suc_parthenogenesis
-			root = {
-				owner = { has_origin = origin_female_in_shadow }
-			}
-		}
-		#允许播种者组装
-		has_trait = trait_sowing_and_breeding
-		#淫触之虫组装淫奴
-		AND = {
-			is_species_class = PAR
-			root = {
-				is_ten_empire = yes
-				any_owned_pop_job = {
-					has_job_type = ten_nest_worker
-				}
-			}
-		}
-		#虫与自然组装
-		AND = {
-			OR = {
-				is_species_class = TEN
-				is_species_class = PAR
-			}
-			root = { owner = { has_valid_civic = civic_parasite_and_nature } }
-		}
-		#淫触圣女组装淫触造物
-		AND = {
-			is_species_class = Magical_Tentacle
-			root = {
-				is_sos_empire = yes
-				any_owned_pop_job = {
-					has_job_type = procreate_doll
-				}
-			}
-		}
-		#圣光创造圣女
-		AND = {
-			has_trait = trait_DC_ethic_asceticism
-			root = {
-				OR = {
-					has_building = building_holylight_clone_vats
-					has_building = building_world_tree_0
-					has_building = building_world_tree_1
-					has_building = building_world_tree_2
-					has_building = building_world_tree_3
-					has_building = building_world_tree_4
-					has_building = building_world_tree_5
-					AND = {
-						exists = owner
-						has_holding = { holding = holding_world_tree owner = owner.overlord }
-					}
-					owner = { has_origin = origin_INN_destruction_light }
-				}
-			}
-		}
-	}
+species_uses_bonus_growth = {
 	is_sapient = yes
-	NOT = {
-		has_trait = trait_exd
-	}
-	NOT = {
-		AND = {
-			has_trait = trait_mechanical
-			root.owner = { is_individual_machine = yes }
-		}
-	}
-	NOT = {
-		AND = {
-			has_virtual_species_trait = yes
-			root.owner = {
-				is_fallen_empire = no
-				has_active_tradition = tr_virtuality_finish
-			}
-		}
-	}
 	has_population_control = {
 		type = no
 		country = root.owner
+	}
+	NAND = {
+		root = { has_modifier = slave_colony }
+		NOT = { has_citizenship_type = { type = citizenship_slavery country = root.owner } }
+	}
+	if = {
+		limit = {
+			has_trait = trait_necrophage
+		}
+		NOT = {
+			root = {
+				any_owned_species = {
+					has_population_control = { country = root.owner type = no }
+					species_can_be_necrophaged = yes
+				}
+			}
+		}
+	}
+	NOR = {
+		has_citizenship_type = {
+			type = citizenship_protected_drone
+			country = root.owner
+		}
+		has_citizenship_type = {
+			type = citizenship_symbiotic_drone
+			country = root.owner
+		}
+		has_citizenship_type = {
+			type = citizenship_exploited_drone
+			country = root.owner
+		}
+	}
+	NOT = { has_species_flag = nivlac_no_procreation }
+	if = {
+		limit = {
+			has_infertile_clone_soldier_trait = yes
+		}
+		root = {
+			check_variable = { which = clone_pops_missing_per_vat value > 0 }
+		}
+	}
+	if = {
+		limit = {
+			has_cybernetic_creed_trait = yes
+		}
+		NOT = {
+			root = {
+				any_owned_species = {
+					has_population_control = { country = root.owner type = no }
+					is_robotic_species = no
+					has_cybernetic_creed_trait = no
+				}
+			}
+		}
+	}
+	# CG
+	OR = {
+		NOT = { has_trait = trait_DC_ethic_parasite_mind }
+		AND = {
+			has_trait = trait_DC_ethic_parasite_mind
+			root.owner = { has_valid_civic = civic_parasite_and_nature }
+		}
 	}
 }
 
@@ -796,47 +780,6 @@ is_criminal_syndicate_rule = {
 	}
 }
 
-# This = planet
-can_crossbreed_species_on_planet = {
-	exists = owner
-	owner = { has_ascension_perk = ap_xeno_compatibility }
-	count_species = {
-		limit = {
-			is_crossbreeding_possible = yes
-		}
-		count >= 2
-	}
-	#_wsg 禁止ntr
-	any_owned_species = { 
-		NOR = {
-			is_archetype = WARSHIPGIRL
-			is_archetype = NANITES_CROP
-			is_archetype = SHENHAI
-			is_archetype = UNITED_FLEET 
-		}
-	}
-}
-
-# This = species
-can_crossbreed_species = {
-	is_crossbreeding_possible = yes
-	#_wsg 禁止ntr
-	NOR = {
-		is_archetype = WARSHIPGIRL
-		is_archetype = NANITES_CROP
-		is_archetype = SHENHAI
-		is_archetype = UNITED_FLEET
-	}
-	root = { 
-		NOR = {
-			is_archetype = WARSHIPGIRL
-			is_archetype = NANITES_CROP
-			is_archetype = SHENHAI
-			is_archetype = UNITED_FLEET
-		}
-	}
-}
-
 # ROOT = country
 # This = pop_group
 can_be_sold_on_slave_market = {
@@ -874,15 +817,6 @@ can_be_sold_on_slave_market = {
 		has_trait = trait_clone_soldier_infertile
 		has_trait = trait_clone_soldier_infertile_full_potential
 		has_virtual_species_trait = yes
-	}
-	#_wsg 禁止ntr
-	species = { 
-		NOR = {
-			is_archetype = WARSHIPGIRL
-			is_archetype = NANITES_CROP
-			is_archetype = SHENHAI
-			is_archetype = UNITED_FLEET
-		}
 	}
 	#被淫触之虫感染的人口无法贩卖
 	can_infest_pops_dc = no
@@ -1149,211 +1083,5 @@ can_modify_organic_portraits = {
 		has_active_tradition = tr_cloning_somatic_synthesization_clone_army
 		has_tradition = tr_mutation_unnatural_selection
 		has_wsg_genemodding_tech = yes	#_wsg
-	}
-}
-
-# this = leader
-can_dismiss_leader = {
-	if = {
-		limit = {
-			leader_class = commander
-			is_idle = no
-			# Rulers and heirs can't be dismissed any way and can be non-idle
-			is_ruler = no
-			is_heir = no
-		}
-		custom_tooltip = {
-			fail_text = "requires_fleet_control"
-			exists = fleet
-			fleet = {
-				controller = {
-					is_same_value = prev.owner
-					is_same_value = prevprev.owner
-				}
-			}
-		}
-	}
-	if = {
-		limit = {
-			OR = {
-				is_heir = yes
-				is_ruler = yes
-			}
-		}
-		custom_tooltip = {
-			always = no
-			fail_text = "can_not_dismiss_rulers"
-		}
-	}
-
-	if = {
-		limit = {
-			leader_class = scientist
-		}
-		custom_tooltip = {
-			fail_text = "can_not_dismiss_rift_explorer"
-			NAND = {
-				exists = fleet
-				fleet = {
-					has_fleet_order = explore_astral_rift_fleet_order
-				}
-			}
-		}
-	}
-	if = {
-		limit = {
-			leader_class = commander
-		}
-		custom_tooltip = {
-			fail_text = "no_dismissing_tacs"
-			NOT = { has_trait = leader_trait_tactical_algorithms }
-		}
-	}
-		if = {
-		limit = {
-			has_leader_flag = manifesti_divine_leader
-		}
-		custom_tooltip = {
-			fail_text = "manifesti_leader_tt"
-			NOT = { has_leader_flag = manifesti_divine_leader }
-		}
-	}
-	#_wsg
-	custom_tooltip = {
-		fail_text = "cannot_fire_wg_leader"
-		NOT = { has_leader_flag = wsg_event_leader }
-		is_special_affection_leader = no
-	}
-}
-
-
-# This = leader, leader we'd like to trade
-# Root = country, country that owns the leader currently
-# From = country, country that would receive the leader
-can_trade_leader = {
-	# The leader must have a trait from a specialist subject type.
-	this = {
-		has_specialist_subject_leader_trait = yes
-		is_councilor = no
-		is_heir = no
-	}
-	OR = {
-		AND = { # Either from subject to Overlord
-			ROOT = {
-				is_subject = yes
-			}
-			FROM = {
-				is_overlord_to = ROOT
-			}
-		}
-		AND = { # Or from a tactical cogitator empire to a NON tactical cogitator empire
-			ROOT = { has_valid_civic = civic_machine_tactical_algorithms }
-			FROM = {
-				NOT = { has_valid_civic = civic_machine_tactical_algorithms }
-				is_fallen_empire = no
-				NOT = {
-					any_owned_leader = {
-						has_trait = leader_trait_tactical_algorithms
-					}
-				}
-			}
-		}
-	}
-	# The subject and overlord must both be regular empires, machine intelligences or hive-minds.
-	OR = {
-		AND = {
-			ROOT = {
-				is_regular_empire = yes
-			}
-			FROM = {
-				is_regular_empire = yes
-			}
-		}
-		AND = {
-			ROOT = {
-				is_machine_empire = yes
-			}
-			FROM = {
-				is_machine_empire = yes
-			}
-		}
-		AND = {
-			ROOT = {
-				is_hive_empire = yes
-			}
-			FROM = {
-				is_hive_empire = yes
-			}
-		}
-		AND = { # Tactical Cogitator option
-			ROOT = {
-				has_valid_civic = civic_machine_tactical_algorithms
-			}
-			FROM = {
-				OR = {
-					is_regular_empire = yes
-					is_hive_empire = yes
-					is_machine_empire = yes
-					has_authority = auth_hive_mind
-					has_authority = auth_machine_intelligence
-				}
-				NOT = { has_country_flag = no_murdering_tactical_leaders }
-				NOT = {
-					any_owned_leader = {
-						has_trait = leader_trait_tactical_algorithms
-					}
-				}
-			}
-		}
-	}
-	# Can't trade gestalt nodes
-	is_gestalt_node = no
-	# The overlord can't be a fallen or awakened empire.
-	ROOT = {
-		NAND = {
-			is_overlord = yes
-			OR = {
-				is_country_type = fallen_empire
-				is_country_type = awakened_fallen_empire
-			}
-		}
-	}
-	NOR = {
-		has_trait = leader_trait_fotd_scientist
-		has_trait = leader_trait_fotd_commander
-	}
-	#_wsg
-	custom_tooltip = {
-		fail_text = "cannot_sold_wg_leader"
-		is_special_affection_leader = no
-		is_wg_event_leader = no
-	}
-}
-
-# This = fleet, fleet we'd like to trade
-# Root = country, country that owns the fleet currently
-# From = country, country that would receive the fleet
-can_trade_fleet = {
-	
-	AND = {
-		ROOT = {
-			NAND = {
-				is_overlord = yes
-				OR = {
-					is_country_type = fallen_empire
-					is_country_type = awakened_fallen_empire
-					is_wg_fallen_empire = yes	#_wsg
-					is_sh_fallen_empire = yes	#_wsg
-				}
-			}
-		}
-		NOT = { has_fleet_flag = dimensional_fleet }
-	}
-	#_wsg
-	custom_tooltip = {
-		fail_text = "cannot_sold_wg_fleet"
-		any_owned_ship = {
-			is_wg_event_limit_ships = no
-		}
 	}
 }

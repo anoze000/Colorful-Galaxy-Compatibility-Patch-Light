@@ -1177,6 +1177,14 @@ species_uses_bonus_growth = {
 	NOT = { has_species_flag = nivlac_no_procreation }
 	if = {
 		limit = {
+			has_infertile_clone_soldier_trait = yes
+		}
+		root = {
+			check_variable = { which = clone_pops_missing_per_vat value > 0 }
+		}
+	}
+	if = {
+		limit = {
 			has_cybernetic_creed_trait = yes
 		}
 		NOT = {
@@ -3421,6 +3429,66 @@ leader_election_weight = {
 			}
 		}
 		mult = 0.5
+	}
+	# Titanic reduction if you are fanatic xenophobic and the candidate is a xeno
+	modifier = {
+		custom_tooltip = {
+			success_text = Xeno
+			owner = {
+				has_ethic = ethic_fanatic_xenophobe
+				NOT = { is_same_species = prev } #Invalidated if you have selective kinship
+				NAND = {
+					has_valid_civic = civic_selective_kinship
+					is_same_species_class = prev
+				}
+			}
+		}
+		mult = 0.001
+	}
+	# Huge Reduction if you are a xenophobe and the candidate is a xeno
+	modifier = {
+		custom_tooltip = {
+			success_text = Xeno
+			owner = {
+				has_ethic = ethic_xenophobe
+				NOT = { is_same_species = prev }
+				NAND = {
+					has_valid_civic = civic_selective_kinship
+					is_same_species_class = prev
+				}
+			}
+		}
+		mult = 0.01
+	}
+	# Halve the chance if you are neither a xenophobe or xenophile
+	modifier = {
+		custom_tooltip = {
+			success_text = Xeno
+			owner = {
+				NOR = {
+					is_xenophobe = yes
+					is_xenophile = yes
+				}
+				NOT = { is_same_species = prev }
+				NAND = {
+					has_valid_civic = civic_selective_kinship
+					is_same_species_class = prev
+				}
+			}
+		}
+		mult = 0.5
+	}
+	# No modifiers for regular xenophiles or selective kinship empires
+	# Fanatic Xenophiles prefer electing aliens that are not the same species as the current one in charge.
+	modifier = {
+		custom_tooltip = {
+			success_text = Xeno
+			owner = { has_ethic = ethic_fanatic_xenophile }
+			NOT = {
+				is_same_species = ruler
+			}
+		}
+		mult = 1.2
 	}
 }
 
