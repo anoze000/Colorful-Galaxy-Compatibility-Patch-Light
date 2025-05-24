@@ -419,18 +419,6 @@ district_resort = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner = {
-				is_pleasure_seeker = yes
-			}
-		}
-		modifier = {
-			job_entertainer_add = 100
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
 			owner = { has_active_tradition = tr_prosperity_public_works }
 		}
 		modifier = {
@@ -475,34 +463,12 @@ district_resort = {
 		}
 	}
 
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			owner = {
-				is_pleasure_seeker = yes
-			}
-		}
-		modifier = {
-			job_entertainer_add = 100
-		}
-	}
-
 	triggered_desc = {
 		trigger = {
 			exists = owner
 			owner = { is_regular_empire = yes }
 		}
 		text = job_resort_worker_effect_desc
-	}
-
-	triggered_desc = {
-		trigger = {
-			exists = owner
-			owner = {
-				is_pleasure_seeker = yes
-			}
-		}
-		text = job_entertainer_effect_desc
 	}
 
 	triggered_name = {

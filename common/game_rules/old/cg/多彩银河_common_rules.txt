@@ -127,7 +127,10 @@ can_species_procreate = {
 	OR = {
 		AND = {
 			has_trait = trait_DC_ethic_parasite_mind
-			root.owner = { has_country_flag = has_ten_crisis_perk_1 }
+			OR = {
+				root.owner = { has_country_flag = has_ten_crisis_perk_1 }
+				has_trait = trait_ten_zoogony
+			}
 		}
 		NOT = { has_trait = trait_DC_ethic_parasite_mind }
 	}

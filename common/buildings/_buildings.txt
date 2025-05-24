@@ -1,6 +1,6 @@
 building_wsg_luxury_residence2 = {
 	base_buildtime = 240
-	base_cap_amount = 2
+	planet_limit = 2
 	category = amenity
 	
 	potential = {
