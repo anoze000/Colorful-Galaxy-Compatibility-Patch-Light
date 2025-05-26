@@ -1,0 +1,1 @@
+@CGWSG_enable_variables = 1
