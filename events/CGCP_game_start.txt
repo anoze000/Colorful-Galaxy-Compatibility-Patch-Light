@@ -1,0 +1,10 @@
+namespace = CGWSG_Global_Flag
+# 上flag
+event = {
+	id = CGWSG_Global_Flag.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_global_flag = CGWSG_enable
+	}
+}
