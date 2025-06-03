@@ -321,27 +321,8 @@ planet_jobs = {
 		produces
 		upkeep
 	}
-	triggered_produces_modifier = {
-		key = planet_jobs_organics
-		modifier_types = {
-			mult
-		}
-		trigger = {
-			is_robot_pop_group = no
-		}
-	}
 	modifier_category = pop_job
 }
-
-
-planet_jobs_robotic = {
-	parent = planet_jobs
-	generate_mult_modifiers = {
-		produces
-	}
-	modifier_category = pop_job
-}
-
 
 planet_researchers = {
 	icon = "job_researcher"

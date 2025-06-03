@@ -941,7 +941,6 @@ can_colonize_with_species = {
 		NOT = { has_trait = trait_self_modified }
 		is_same_species = root
 	}
-	has_cybernetic_creed_trait = no
 	NOR = {
 		has_trait = trait_pathogenic_genes
 		has_trait = trait_limited_cybernetic
@@ -1356,7 +1355,10 @@ are_rebels_hostile = {
 
 #Root: planet
 should_colony_be_destroyed_on_pc_change = {
-	is_planet_class = pc_infested
+	OR = {
+		is_planet_class = pc_infested
+		is_planet_class = pc_ai
+	}
 }
 
 # Is the given fleet the portal for given extradimensional country
@@ -2141,6 +2143,10 @@ can_build_branch_office_on_planet = {
 				NOT = { has_planet_flag = criminal_branch_closed_cooldown_planet@root }
 			}
 		}
+	}
+	custom_tooltip = {
+		fail_text = NO_BRANCH_OFFICE_ON_AI_WORLD
+		NOT = { is_planet_class = pc_ai }
 	}
 	custom_tooltip = {
 		fail_text = NO_BRANCH_OFFICE_ON_NANITE_WORLD
@@ -3484,8 +3490,9 @@ leader_election_weight = {
 		custom_tooltip = {
 			success_text = Xeno
 			owner = { has_ethic = ethic_fanatic_xenophile }
+			exists = owner.ruler
 			NOT = {
-				is_same_species = ruler
+				is_same_species = owner.ruler
 			}
 		}
 		mult = 1.2
