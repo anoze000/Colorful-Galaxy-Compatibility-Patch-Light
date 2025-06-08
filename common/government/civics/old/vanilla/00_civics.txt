@@ -1774,8 +1774,8 @@ civic_byzantine_bureaucracy = {
 	}
 	modifier = {
 		planet_bureaucrats_unity_produces_add = 1
+		planet_bureaucrats_stability_produces_add = 1
 	}
-	description = "civic_tooltip_byzantine_bureaucracy_effects"
 }
 
 civic_merchant_guilds = {
@@ -2191,13 +2191,6 @@ civic_pleasure_seekers = {
 			}
 		}
 	}
-	swap_type = {
-		description = "civic_tooltip_pleasure_seekers_effects_machines"
-
-		trigger = {
-			is_individual_machine = yes
-		}
-	}
 }
 
 civic_idyllic_bloom = {
@@ -2249,6 +2242,7 @@ civic_anglers = {
 	playable = { has_aquatics = yes }
 	ai_playable = { has_aquatics = yes }
 	description = "civic_tooltip_anglers_effects"
+	negative_description = "civic_tooltip_anglers_negative_effects"
 	potential = {
 		ethics = { NOT = { value = ethic_gestalt_consciousness } }
 		authority = { NOT = { value = auth_corporate } }
@@ -2277,6 +2271,7 @@ civic_machine_anglers = {
 	playable = { has_aquatics = yes }
 	ai_playable = { has_aquatics = yes }
 	description = "civic_tooltip_machine_anglers_effects"
+	negative_description = "civic_tooltip_machine_anglers_negative_effects"
 	potential = {
 		ethics = { NOT = { value = ethic_gestalt_consciousness } }
 		authority = { NOT = { value = auth_corporate } }
@@ -2675,6 +2670,7 @@ civic_eager_explorers = {
 	}
 
 	description = "civic_eager_explorers_effects"
+	negative_description = "civic_eager_explorers_negative_effects"
 	possible = {
 		origin = {
 			NOT = {
@@ -2759,6 +2755,7 @@ civic_eager_explorers = {
 
 	swap_type = {
 		description = "civic_eager_explorers_effects"
+		negative_description = "civic_eager_explorers_negative_effects"
 		trigger = {
 			has_astral_planes_dlc = yes
 		}

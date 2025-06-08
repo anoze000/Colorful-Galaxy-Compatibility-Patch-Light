@@ -2345,12 +2345,6 @@ can_build_unity_megastructures = {
 can_build_fallen_empire_buildings = {
 	OR = {
 		is_fallen_empire = yes
-		has_country_flag = nano_forge_can_build
-		has_country_flag = skydome_can_build
-		has_country_flag = dimensional_fabricator_can_build
-		has_country_flag = affluence_center_can_build
-		has_country_flag = nourishment_center_can_build
-		has_country_flag = class_4_singularity_can_build
 		has_technology = tech_fe_affluence_1
 		has_technology = tech_fe_nourishment_1
 		has_technology = tech_fe_fabricator_1
@@ -3542,7 +3536,7 @@ is_eager_explorer_empire = {
 	}
 }
 
-is_pleasure_seeker = {
+is_pleasure_seeker_empire = {
 	OR = {
 		has_valid_civic = civic_pleasure_seekers
 		has_valid_civic = civic_corporate_hedonism
@@ -4857,7 +4851,39 @@ is_legit_or_legal_criminal = {
 
 is_illegal_criminal = {
 	is_criminal_syndicate = yes
-	NOT = { has_commercial_pact = root.owner }
+	NOT = {
+		has_commercial_pact = root.owner
+		is_in_federation_with = root.owner
+		# Overlord/Subjects
+		AND = {
+			is_subject = yes
+			overlord = {
+				OR = {
+					is_same_value = root.owner
+					is_same_value = root.owner.overlord
+				}
+			}
+		}
+		root.owner = {
+			is_subject = yes
+			overlord = {
+				OR = {
+					is_same_value = prev
+					is_same_value = prev.overlord
+				}
+			}
+		}
+		# ImperiCorp
+		AND = {
+			has_civic = civic_galactic_sovereign_megacorp
+			root.owner = { is_galactic_community_member = yes }
+		}
+		# Imperial Charter
+		AND = {
+			has_modifier = imperial_charter
+			root.owner = { is_galactic_community_member = yes }
+		}
+	}
 }
 
 weapon_tech_increased = {

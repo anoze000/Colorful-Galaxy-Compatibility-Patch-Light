@@ -1428,6 +1428,7 @@ trait_psionic = {
 		}
 		modifier = {
 			subtract = 1.5
+			exists = from.owner
 			from.owner = { has_ascension_perk = ap_the_flesh_is_weak }
 		}
 	}
@@ -1595,6 +1596,7 @@ trait_bioadaptability = { #green
 		base = 1
 		modifier = {
 			mult = 0
+			exists = owner
 			owner = { has_country_flag = modification_green }
 		}
 	}
@@ -1636,6 +1638,7 @@ trait_social_pheromones = { #red
 		base = 1
 		modifier = {
 			mult = 0
+			exists = owner
 			owner = { has_country_flag = modification_red }
 		}
 	}
@@ -1674,6 +1677,7 @@ trait_limited_regeneration = { #blue
 		base = 1
 		modifier = {
 			mult = 0
+			exists = owner
 			owner = { has_country_flag = modification_blue }
 		}
 	}

@@ -1378,6 +1378,7 @@ district_hive_3 = {
 	}
 }
 
+# TODO CD - use inline_script for duplicate district types
 district_nexus = {
 	base_buildtime = 480
 	is_capped_by_modifier = no

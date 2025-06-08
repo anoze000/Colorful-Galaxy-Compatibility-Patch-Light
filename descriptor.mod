@@ -3,5 +3,5 @@ tags={
 	"Fixes"
 }
 name="Colorful Galaxy  Compatibility Patch Light"
-supported_version="v4.0.14"
+supported_version="v4.0.16"
 remote_file_id="3355586919"
